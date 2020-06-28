@@ -20,5 +20,7 @@ private:
     Person person;
     GLuint proj;
     GLuint world2cam;
+    GLuint thrID;
     GLuint sampler;
+    float threshold{0.0f};
 };

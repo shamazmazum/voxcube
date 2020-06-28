@@ -20,6 +20,7 @@ Application::Application (int w, int h, bool fullscreen) {
     this->proj      = this->program->uniformLocation ("proj");
     this->world2cam = this->program->uniformLocation ("world2cam");
     this->sampler   = this->program->uniformLocation ("sampler");
+    this->thrID     = this->program->uniformLocation ("threshold");
 
     this->model = std::make_unique<Model> ("skull.dat", 256, 256, 256, 1);
 
@@ -47,6 +48,8 @@ void Application::draw() {
     // World 2 Camera matrix
     glm::mat4 world2cam = person.world2Camera();
     glUniformMatrix4fv (this->world2cam, 1, GL_FALSE, &world2cam[0][0]);
+    // Density threshold
+    glUniform1f (this->thrID, this->threshold);
 
     // Bind texture
     glActiveTexture (GL_TEXTURE0);
@@ -84,6 +87,14 @@ bool Application::handleEvents() {
 
     while (SDL_PollEvent (&event)) {
         switch (event.type) {
+        case SDL_KEYDOWN:
+            if (event.key.keysym.scancode == SDL_SCANCODE_O) {
+                this->threshold = std::max (this->threshold - 0.01f, 0.0f);
+            }
+            else if (event.key.keysym.scancode == SDL_SCANCODE_P) {
+                this->threshold = std::min (this->threshold + 0.01f, 1.0f);
+            }
+            break;
         case SDL_QUIT:
             return false;
         }
