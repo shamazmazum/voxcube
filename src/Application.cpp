@@ -55,7 +55,7 @@ void Application::draw() {
     glEnableVertexAttribArray(0);
     this->model->bindVertexBuffer();
     glVertexAttribPointer(0,         // layout
-                          3,         // size
+                          2,         // size
                           GL_FLOAT,  // type
                           GL_FALSE,  // normalized?
                           0,         // stride

@@ -5,10 +5,10 @@
 #define N 512
 
 static const GLfloat quad_data[] = {
-    -1.0f, -1.0f, 0.0f,
-     1.0f, -1.0f, 0.0f,
-    -1.0f,  1.0f, 0.0f,
-     1.0f,  1.0f, 0.0f
+    -1.0f, -1.0f,
+     1.0f, -1.0f,
+    -1.0f,  1.0f,
+     1.0f,  1.0f,
 };
 
 Model::Model (std::string density_map,
