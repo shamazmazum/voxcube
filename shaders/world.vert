@@ -8,8 +8,17 @@ uniform mat4 proj;
 uniform mat4 world2cam;
 
 void main() {
-    vec3 vcoord = vec3 (vertexIn, zcoord);
-    //vcoord = vcoord.xzy;
-    gl_Position = proj * world2cam * vec4(vcoord, 1.0f);
-    vertexOut = vcoord;
+    vec3 vertex = vec3 (vertexIn, zcoord);
+    vec3 front = transpose (mat3 (world2cam)) * vec3 (0.0f, 0.0f, 1.0f);
+    vec3 absfront = abs (front);
+    float m = max (absfront.x, max (absfront.y, absfront.z));
+
+    if (m == absfront.x) {
+        vertex = vertex.zyx;
+    } else if (m == absfront.y) {
+        vertex = vertex.xzy;
+    }
+
+    gl_Position = proj * world2cam * vec4(vertex, 1.0f);
+    vertexOut = vertex;
 }
