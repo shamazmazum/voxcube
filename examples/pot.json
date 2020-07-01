@@ -1,0 +1,9 @@
+{
+    "datafile": "BostonTeapot.raw",
+    "samplesize": 1,
+    "dimensions": {
+        "w": 256,
+        "h": 256,
+        "d": 178
+    }
+}

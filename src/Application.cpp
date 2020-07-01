@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Resources.h"
+#include "ConfigFile.h"
 
 Application::Application (int w, int h, bool fullscreen) {
     if (SDL_Init (SDL_INIT_VIDEO) != 0) {
@@ -23,7 +24,13 @@ Application::Application (int w, int h, bool fullscreen) {
     this->sampler   = this->program->uniformLocation ("sampler");
     this->thrID     = this->program->uniformLocation ("threshold");
 
-    this->model = std::make_unique<Model> ("skull.dat", 256, 256, 256, 1);
+    Configuration cfg("examples/pot.json");
+    BoxSize datasize = cfg.dataSize();
+    this->model = std::make_unique<Model> (cfg.dataFile(),
+                                           datasize.w,
+                                           datasize.h,
+                                           datasize.d,
+                                           cfg.sampleSize());
 
     SDL_EventState (SDL_MOUSEMOTION, SDL_DISABLE);
     SDL_SetRelativeMouseMode (SDL_TRUE);

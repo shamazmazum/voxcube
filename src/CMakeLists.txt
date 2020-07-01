@@ -10,12 +10,14 @@ include_directories (
   ${SDL2_INCLUDE_DIR}/..
   ${OPENGL_INCLUDE_DIR}/..
   ${GLM_INCLUDE_DIR}
+  ${JSONCPP_INCLUDE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   )
 
 add_executable (voxcube
   Window.cpp
   Shader.cpp
+  ConfigFile.cpp
   Model.cpp
   Person.cpp
   Application.cpp
@@ -26,4 +28,5 @@ target_link_libraries (voxcube
   OpenGL::GL
   ${SDL2_LIBRARY}
   ${GLM_LIBRARY}
+  ${JSONCPP_LIBRARY}
   )
