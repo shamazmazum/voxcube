@@ -10,4 +10,6 @@ find_package (OpenGL REQUIRED)
 find_package (SDL2 REQUIRED)
 pkg_check_modules(GLM REQUIRED glm)
 
+option (SYSTEM_WIDE "System-wide install" ON)
+
 add_subdirectory (src)

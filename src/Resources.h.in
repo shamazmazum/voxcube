@@ -1,0 +1,14 @@
+#pragma once
+#include <filesystem>
+
+#define RESOURCE_DIR "@RESOURCE_DIR@"
+
+using namespace std::filesystem;
+
+class Resources {
+public:
+    static std::string shader (std::string name) {
+        path p = path(RESOURCE_DIR) / path ("shaders") / path (name);
+        return p.string();
+    }
+};

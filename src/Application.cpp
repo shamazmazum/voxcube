@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Resources.h"
 
 Application::Application (int w, int h, bool fullscreen) {
     if (SDL_Init (SDL_INIT_VIDEO) != 0) {
@@ -14,8 +15,8 @@ Application::Application (int w, int h, bool fullscreen) {
     person.setAspectRatio ((float)winsize.first / (float)winsize.second);
     person.setPosition (glm::vec3 (0.0f, 2.0f, 0.0f));
 
-    Shader vert("shaders/world.vert", GL_VERTEX_SHADER);
-    Shader frag("shaders/world.frag", GL_FRAGMENT_SHADER);
+    Shader vert(Resources::shader ("world.vert"), GL_VERTEX_SHADER);
+    Shader frag(Resources::shader ("world.frag"), GL_FRAGMENT_SHADER);
     this->program   = std::make_unique<Program> (vert, frag);
     this->proj      = this->program->uniformLocation ("proj");
     this->world2cam = this->program->uniformLocation ("world2cam");
