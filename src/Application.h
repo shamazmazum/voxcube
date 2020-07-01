@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <GL/gl.h>
 #include "Window.h"
 #include "Person.h"
@@ -7,7 +8,7 @@
 
 class Application {
 public:
-    Application (int w, int h, bool fullscreen);
+    Application (std::string cfgfile, int w = 0, int h = 0, bool fullscreen = true);
     ~Application();
     void draw();
     bool handleEvents();

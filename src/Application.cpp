@@ -2,7 +2,7 @@
 #include "Resources.h"
 #include "ConfigFile.h"
 
-Application::Application (int w, int h, bool fullscreen) {
+Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     if (SDL_Init (SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error ("Cannot initialize SDL");
     }
@@ -24,7 +24,7 @@ Application::Application (int w, int h, bool fullscreen) {
     this->sampler   = this->program->uniformLocation ("sampler");
     this->thrID     = this->program->uniformLocation ("threshold");
 
-    Configuration cfg("examples/pot.json");
+    Configuration cfg(cfgfile);
     BoxSize datasize = cfg.dataSize();
     this->model = std::make_unique<Model> (cfg.dataFile(),
                                            datasize.w,
