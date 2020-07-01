@@ -30,3 +30,5 @@ target_link_libraries (voxcube
   ${GLM_LIBRARY}
   ${JSONCPP_LIBRARY}
   )
+
+install (TARGETS voxcube RUNTIME DESTINATION bin)

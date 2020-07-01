@@ -14,3 +14,6 @@ pkg_check_modules (GLM REQUIRED glm)
 option (SYSTEM_WIDE "System-wide install" ON)
 
 add_subdirectory (src)
+
+install (DIRECTORY examples/ DESTINATION share/examples/voxcube)
+install (DIRECTORY shaders/ DESTINATION share/voxcube/shaders)
