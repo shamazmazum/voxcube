@@ -1,3 +1,4 @@
+#include <string>
 #include <stdexcept>
 #include "Window.h"
 
@@ -21,12 +22,14 @@ Window::Window (int w, int h, bool fullscreen) {
                                      SDL_WINDOWPOS_CENTERED,
                                      w, h, flags);
     if (this->window == NULL) {
-        throw std::runtime_error ("Cannot create a window");
+        throw std::runtime_error (std::string ("Cannot create a window: ") +
+                                  SDL_GetError());
     }
 
     this->context =  SDL_GL_CreateContext (this->window);
     if (this->context == NULL) {
-        throw std::runtime_error ("Cannot create an OpenGL context");
+        throw std::runtime_error (std::string ("Cannot create an OpenGL context: ") +
+                                  SDL_GetError());
     }
 
     SDL_GetWindowSize (this->window, &this->w, &this->h);

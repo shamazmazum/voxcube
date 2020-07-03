@@ -24,6 +24,7 @@ static void usage () {
 
 int main (int argc, char *argv[]) {
     std::string cfg;
+    std::unique_ptr<Application> app;
     bool fullscreen = true;
     int w = 800, h = 600;
     char c;
@@ -51,9 +52,15 @@ int main (int argc, char *argv[]) {
         usage ();
     }
 
-    Application app (cfg, w, h, fullscreen);
-    while (app.handleEvents()) {
-        app.draw();
+    try {
+        app = std::make_unique<Application> (cfg, w, h, fullscreen);
+    } catch (const std::runtime_error &e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
+
+    while (app->handleEvents()) {
+        app->draw();
     }
 
     return 0;

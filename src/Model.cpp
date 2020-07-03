@@ -16,7 +16,7 @@ Model::Model (std::string density_map,
               int bps) {
     std::ifstream input(density_map);
     if (input.fail()) {
-        throw std::runtime_error ("Cannot open a model");
+        throw std::runtime_error ("Cannot open a model: " + density_map);
     }
 
     size_t samples = w * h * d;
@@ -25,7 +25,7 @@ Model::Model (std::string density_map,
     input.read (buffer, size);
     if (!input) {
         delete[] buffer;
-        throw std::runtime_error ("Cannot load a model");
+        throw std::runtime_error ("Cannot load a model: " + density_map);
     }
 
     std::vector<float> texdata;

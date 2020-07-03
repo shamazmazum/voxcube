@@ -4,7 +4,8 @@
 
 Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     if (SDL_Init (SDL_INIT_VIDEO) != 0) {
-        throw std::runtime_error ("Cannot initialize SDL");
+        throw std::runtime_error (std::string ("Cannot initialize SDL: ")
+                                  + SDL_GetError());
     }
 
     this->window = std::make_unique<Window> (w, h, fullscreen);
