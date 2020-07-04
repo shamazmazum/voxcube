@@ -15,7 +15,7 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
 
     std::pair<int, int> winsize = this->window->windowSize ();
     person.setAspectRatio ((float)winsize.first / (float)winsize.second);
-    person.setPosition (glm::vec3 (0.0f, 2.0f, 0.0f));
+    person.setPosition (glm::vec3 (0.0f, 0.0f, 2.0f));
 
     Configuration cfg(cfgfile);
     BoxSize datasize = cfg.dataSize();
