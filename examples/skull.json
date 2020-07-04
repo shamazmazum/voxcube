@@ -1,0 +1,8 @@
+{
+    "datafile": "skull.dat",
+    "dimensions": {
+        "w": 256,
+        "h": 256,
+        "d": 256
+    }
+}
