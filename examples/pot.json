@@ -1,5 +1,5 @@
 {
-    "datafile": "BostonTeapot.raw",
+    "datafile": "BostonTeapot.dat",
     "samplesize": 1,
     "dimensions": {
         "w": 256,

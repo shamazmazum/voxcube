@@ -15,5 +15,6 @@ option (SYSTEM_WIDE "System-wide install" ON)
 
 add_subdirectory (src)
 
-install (DIRECTORY examples/ DESTINATION share/examples/voxcube)
+install (DIRECTORY examples/ DESTINATION share/examples/voxcube
+  FILES_MATCHING PATTERN "*.json" PATTERN "*.dat")
 install (DIRECTORY shaders/ DESTINATION share/voxcube/shaders)
