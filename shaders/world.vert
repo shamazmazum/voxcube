@@ -6,6 +6,7 @@ layout(location = 0) out vec3 vertexOut;
 
 uniform mat4 proj;
 uniform mat4 world2cam;
+uniform bvec3 invert_axes;
 
 void main() {
     vec3 vertex = vec3 (vertexIn, zcoord);
@@ -20,5 +21,5 @@ void main() {
     }
 
     gl_Position = proj * world2cam * vec4(vertex, 1.0f);
-    vertexOut = vertex;
+    vertexOut = mix (vertex, -vertex, invert_axes);
 }

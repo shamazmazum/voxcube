@@ -1,12 +1,13 @@
 #pragma once
 #include <algorithm>
+#include <glm/glm.hpp>
 #include "Model.h"
 #include "Shader.h"
 #include "Person.h"
 
 class Renderer {
 public:
-    Renderer();
+    Renderer (glm::bvec3 invertAxes = glm::bvec3 (false, false, false));
     void render (Person &person, std::unique_ptr<Model> &model);
     void incThreshold (float delta) {
         this->threshold = std::clamp (this->threshold + delta, 0.0f, 1.0f);
@@ -21,5 +22,7 @@ private:
     GLuint world2cam;
     GLuint thrID;
     GLuint sampler;
+    GLuint invertID;
+    glm::bvec3 invertAxes;
     float threshold{0.0f};
 };

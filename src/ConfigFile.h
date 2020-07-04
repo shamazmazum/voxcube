@@ -14,9 +14,13 @@ public:
     unsigned int sampleSize() {
         return this->samplesize;
     }
+    glm::bvec3 axesInversion() {
+        return this->invertAxes;
+    }
 
 private:
     glm::uvec3 dimensions;
+    glm::bvec3 invertAxes;
     std::string datafile;
     unsigned int samplesize;
 };

@@ -3,7 +3,7 @@
 #include "Resources.h"
 #include "Renderer.h"
 
-Renderer::Renderer() {
+Renderer::Renderer (glm::bvec3 invertAxes) {
     Shader vert(Resources::shader ("world.vert"), GL_VERTEX_SHADER);
     Shader frag(Resources::shader ("world.frag"), GL_FRAGMENT_SHADER);
 
@@ -12,6 +12,9 @@ Renderer::Renderer() {
     this->world2cam = this->program->uniformLocation ("world2cam");
     this->sampler   = this->program->uniformLocation ("sampler");
     this->thrID     = this->program->uniformLocation ("threshold");
+    this->invertID  = this->program->uniformLocation ("invert_axes");
+
+    this->invertAxes = invertAxes;
 }
 
 void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
@@ -32,6 +35,11 @@ void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
     glUniformMatrix4fv (this->world2cam, 1, GL_FALSE, &world2cam[0][0]);
     // Density threshold
     glUniform1f (this->thrID, this->threshold);
+    // Axes direction
+    glUniform3ui (this->invertID,
+                  this->invertAxes.x,
+                  this->invertAxes.y,
+                  this->invertAxes.z);
 
     // Bind texture
     glActiveTexture (GL_TEXTURE0);

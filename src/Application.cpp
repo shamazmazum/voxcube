@@ -21,7 +21,7 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     this->model = std::make_unique<Model> (cfg.dataFile(),
                                            cfg.dataSize(),
                                            cfg.sampleSize());
-    this->renderer = std::make_unique<Renderer> ();
+    this->renderer = std::make_unique<Renderer> (cfg.axesInversion());
 
     SDL_EventState (SDL_MOUSEMOTION, SDL_DISABLE);
     SDL_SetRelativeMouseMode (SDL_TRUE);

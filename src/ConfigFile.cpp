@@ -22,6 +22,9 @@ Configuration::Configuration (std::string filename) {
         this->dimensions = glm::uvec3 (root["dimensions"]["w"].asUInt(),
                                        root["dimensions"]["h"].asUInt(),
                                        root["dimensions"]["d"].asUInt());
+        this->invertAxes = glm::bvec3 (root["invert"]["x"].asBool(),
+                                       root["invert"]["y"].asBool(),
+                                       root["invert"]["z"].asBool());
     } catch (const Json::LogicError &e) {
         std::cerr << "Cannot parse configuration: " << e.what() << std::endl;
         throw std::runtime_error ("Configuration error");
