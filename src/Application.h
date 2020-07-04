@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "Person.h"
 #include "Model.h"
-#include "Shader.h"
+#include "Renderer.h"
 
 class Application {
 public:
@@ -14,14 +14,8 @@ public:
     bool handleEvents();
 
 private:
-    std::unique_ptr<Window>  window;
-    std::unique_ptr<Program> program;
-    std::unique_ptr<Model>   model;
-
+    std::unique_ptr<Window>   window;
+    std::unique_ptr<Model>    model;
+    std::unique_ptr<Renderer> renderer;
     Person person;
-    GLuint proj;
-    GLuint world2cam;
-    GLuint thrID;
-    GLuint sampler;
-    float threshold{0.0f};
 };

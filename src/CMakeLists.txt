@@ -20,6 +20,7 @@ add_executable (voxcube
   ConfigFile.cpp
   Model.cpp
   Person.cpp
+  Renderer.cpp
   Application.cpp
   main.cpp
 )

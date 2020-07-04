@@ -17,14 +17,6 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     person.setAspectRatio ((float)winsize.first / (float)winsize.second);
     person.setPosition (glm::vec3 (0.0f, 2.0f, 0.0f));
 
-    Shader vert(Resources::shader ("world.vert"), GL_VERTEX_SHADER);
-    Shader frag(Resources::shader ("world.frag"), GL_FRAGMENT_SHADER);
-    this->program   = std::make_unique<Program> (vert, frag);
-    this->proj      = this->program->uniformLocation ("proj");
-    this->world2cam = this->program->uniformLocation ("world2cam");
-    this->sampler   = this->program->uniformLocation ("sampler");
-    this->thrID     = this->program->uniformLocation ("threshold");
-
     Configuration cfg(cfgfile);
     BoxSize datasize = cfg.dataSize();
     this->model = std::make_unique<Model> (cfg.dataFile(),
@@ -32,6 +24,7 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
                                            datasize.h,
                                            datasize.d,
                                            cfg.sampleSize());
+    this->renderer = std::make_unique<Renderer> ();
 
     SDL_EventState (SDL_MOUSEMOTION, SDL_DISABLE);
     SDL_SetRelativeMouseMode (SDL_TRUE);
@@ -42,52 +35,7 @@ Application::~Application() {
 }
 
 void Application::draw() {
-    glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
-    // Sort planes
-    glm::vec3 pos = this->person.position();
-    this->model->sortPlanes (pos.z);
-
-    this->program->use();
-    // Set our "sampler" sampler to use Texture Unit 0
-    glUniform1i (this->sampler, 0);
-    // Projection matrix
-    glm::mat4 project = person.projection();
-    glUniformMatrix4fv (this->proj, 1, GL_FALSE, &project[0][0]);
-    // World 2 Camera matrix
-    glm::mat4 world2cam = person.world2Camera();
-    glUniformMatrix4fv (this->world2cam, 1, GL_FALSE, &world2cam[0][0]);
-    // Density threshold
-    glUniform1f (this->thrID, this->threshold);
-
-    // Bind texture
-    glActiveTexture (GL_TEXTURE0);
-    this->model->bindTexture();
-
-    glEnableVertexAttribArray(0);
-    this->model->bindVertexBuffer();
-    glVertexAttribPointer(0,         // layout
-                          2,         // size
-                          GL_FLOAT,  // type
-                          GL_FALSE,  // normalized?
-                          0,         // stride
-                          (void*)0); // array buffer offset
-
-    glEnableVertexAttribArray(1);
-    this->model->bindZCoords();
-    glVertexAttribPointer(1,         // layout
-                          1,         // size
-                          GL_FLOAT,  // type
-                          GL_FALSE,  // normalized?
-                          0,         // stride
-                          (void*)0); // array buffer offset
-
-    glVertexAttribDivisor(0, 0);
-    glVertexAttribDivisor(1, 1);
-    glDrawArraysInstanced (GL_TRIANGLE_STRIP, 0, 4, this->model->numQuads());
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-
+    this->renderer->render (this->person, this->model);
     this->window->redraw();
 }
 
@@ -98,10 +46,10 @@ bool Application::handleEvents() {
         switch (event.type) {
         case SDL_KEYDOWN:
             if (event.key.keysym.scancode == SDL_SCANCODE_O) {
-                this->threshold = std::max (this->threshold - 0.01f, 0.0f);
+                this->renderer->decThreshold (0.05f);
             }
             else if (event.key.keysym.scancode == SDL_SCANCODE_P) {
-                this->threshold = std::min (this->threshold + 0.01f, 1.0f);
+                this->renderer->incThreshold (0.05f);
             }
             break;
         case SDL_QUIT:
