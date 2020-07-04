@@ -30,7 +30,7 @@ make
 make install # Root required
 ~~~~
 
-If you do not want to install **voxvision** system-wide, you can do
+If you do not want to install **voxcube** system-wide, you can do
 the following:
 
 ~~~~
