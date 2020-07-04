@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "Model.h"
 #include "Shader.h"
 #include "Person.h"
@@ -7,8 +8,12 @@ class Renderer {
 public:
     Renderer();
     void render (Person &person, std::unique_ptr<Model> &model);
-    void incThreshold (float delta);
-    void decThreshold (float delta);
+    void incThreshold (float delta) {
+        this->threshold = std::clamp (this->threshold + delta, 0.0f, 1.0f);
+    }
+    void decThreshold (float delta) {
+        this->threshold = std::clamp (this->threshold - delta, 0.0f, 1.0f);
+    }
 
 private:
     std::unique_ptr<Program> program;

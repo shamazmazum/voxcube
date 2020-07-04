@@ -14,22 +14,6 @@ Renderer::Renderer() {
     this->thrID     = this->program->uniformLocation ("threshold");
 }
 
-void Renderer::incThreshold (float delta) {
-    if (delta < 0) {
-        throw std::runtime_error ("Delta is negative!");
-    }
-
-    this->threshold = std::min (this->threshold + delta, 1.0f);
-}
-
-void Renderer::decThreshold (float delta) {
-    if (delta < 0) {
-        throw std::runtime_error ("Delta is negative!");
-    }
-
-    this->threshold = std::max (this->threshold - delta, 0.0f);
-}
-
 void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
     glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 

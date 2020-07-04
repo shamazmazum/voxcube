@@ -1,4 +1,6 @@
 #pragma once
+#include <cmath>
+#include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
@@ -11,7 +13,9 @@ public:
         this->phi += delta;
     }
     void turnUp (float delta) {
-        this->psi += delta;
+        this->psi = std::clamp (this->psi + delta,
+                                -(float)M_PI_2,
+                                 (float)M_PI_2);
     }
     glm::vec3 position () {
         return this->pos;
