@@ -1,17 +1,12 @@
 #pragma once
 #include <string>
-
-struct BoxSize {
-    unsigned int w;
-    unsigned int h;
-    unsigned int d;
-};
+#include <glm/glm.hpp>
 
 class Configuration {
 public:
     Configuration (std::string filename);
-    BoxSize dataSize() {
-        return this->box;
+    glm::uvec3 dataSize() {
+        return this->dimensions;
     }
     std::string dataFile() {
         return this->datafile;
@@ -21,7 +16,7 @@ public:
     }
 
 private:
-    BoxSize box;
+    glm::uvec3 dimensions;
     std::string datafile;
     unsigned int samplesize;
 };

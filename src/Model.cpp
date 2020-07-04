@@ -12,14 +12,14 @@ static const GLfloat quad_data[] = {
 };
 
 Model::Model (std::string density_map,
-              int w, int h, int d,
+              glm::uvec3 dimensions,
               int bps) {
     std::ifstream input(density_map);
     if (input.fail()) {
         throw std::runtime_error ("Cannot open a model: " + density_map);
     }
 
-    size_t samples = w * h * d;
+    size_t samples = dimensions.x * dimensions.y * dimensions.z;
     size_t size = samples * bps;
     char *buffer = new char [size];
     input.read (buffer, size);
@@ -69,7 +69,8 @@ Model::Model (std::string density_map,
     // Texture
     glGenTextures (1, &this->texture);
     glBindTexture (GL_TEXTURE_3D, this->texture);
-    glTexImage3D (GL_TEXTURE_3D, 0, GL_RED, w, h, d,
+    glTexImage3D (GL_TEXTURE_3D, 0, GL_RED,
+                  dimensions.x, dimensions.y, dimensions.z,
                   0, GL_RED, GL_FLOAT, texdata.data());
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

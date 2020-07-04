@@ -18,11 +18,8 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     person.setPosition (glm::vec3 (0.0f, 0.0f, 2.0f));
 
     Configuration cfg(cfgfile);
-    BoxSize datasize = cfg.dataSize();
     this->model = std::make_unique<Model> (cfg.dataFile(),
-                                           datasize.w,
-                                           datasize.h,
-                                           datasize.d,
+                                           cfg.dataSize(),
                                            cfg.sampleSize());
     this->renderer = std::make_unique<Renderer> ();
 

@@ -19,20 +19,20 @@ Configuration::Configuration (std::string filename) {
     try {
         this->datafile = root["datafile"].asString();
         this->samplesize = root.get("samplesize", 1).asUInt();
-        this->box.w = root["dimensions"]["w"].asUInt();
-        this->box.h = root["dimensions"]["h"].asUInt();
-        this->box.d = root["dimensions"]["d"].asUInt();
+        this->dimensions = glm::uvec3 (root["dimensions"]["w"].asUInt(),
+                                       root["dimensions"]["h"].asUInt(),
+                                       root["dimensions"]["d"].asUInt());
     } catch (const Json::LogicError &e) {
         std::cerr << "Cannot parse configuration: " << e.what() << std::endl;
         throw std::runtime_error ("Configuration error");
     }
 
-    if (box.w == 0 ||
-        box.h == 0 ||
-        box.d == 0) {
-        throw std::runtime_error (std::to_string (box.w) + "x" +
-                                  std::to_string (box.h) + "x" +
-                                  std::to_string (box.d) +
+    if (this->dimensions.x == 0 ||
+        this->dimensions.y == 0 ||
+        this->dimensions.z == 0) {
+        throw std::runtime_error (std::to_string (this->dimensions.x) + "x" +
+                                  std::to_string (this->dimensions.y) + "x" +
+                                  std::to_string (this->dimensions.z) +
                                   ": invalid dimensions");
     }
 

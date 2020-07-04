@@ -7,7 +7,7 @@
 class Model {
 public:
     Model (std::string density_map,
-           int w, int h, int d,
+           glm::uvec3 dimensions,
            int bps);
     ~Model() {
         glDeleteBuffers (1, &this->quadbuffer);
