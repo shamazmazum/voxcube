@@ -30,7 +30,7 @@ public:
         this->fov = fov;
     }
     glm::mat4 projection() {
-        return glm::perspective (this->fov, this->aspectRatio, 0.1f, 100.0f);
+        return glm::perspective (this->fov, this->aspectRatio, 0.1f, 10.0f);
     }
 
 private:
