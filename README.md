@@ -1,4 +1,5 @@
 # Voxcube
+[![Build Status](https://api.cirrus-ci.com/github/shamazmazum/voxcube.svg)](https://cirrus-ci.com/github/shamazmazum/voxcube)
 
 **Voxcube** is a small program for rendering density maps. Density maps
 are just raw files containing density samples (unsigned integer
