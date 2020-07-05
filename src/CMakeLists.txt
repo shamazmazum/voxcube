@@ -28,7 +28,6 @@ add_executable (voxcube
 target_link_libraries (voxcube
   OpenGL::GL
   ${SDL2_LIBRARY}
-  ${GLM_LIBRARIES}
   ${JSONCPP_LIBRARY}
   )
 
