@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <memory>
 #include <glm/glm.hpp>
 #include "Model.h"
 #include "Shader.h"

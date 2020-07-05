@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include <GL/gl.h>
 #include "Window.h"
 #include "Person.h"
