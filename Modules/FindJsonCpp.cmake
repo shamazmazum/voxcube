@@ -1,15 +1,16 @@
 FIND_PATH(JSONCPP_INCLUDE_DIR NAMES
-  json/allocator.h
-  json/assertions.h
-  json/autolink.h
-  json/config.h
-  json/forwards.h
-  json/json.h
-  json/json_features.h
-  json/reader.h
-  json/value.h
-  json/version.h
-  json/writer.h)
+  allocator.h
+  assertions.h
+  autolink.h
+  config.h
+  forwards.h
+  json.h
+  json_features.h
+  reader.h
+  value.h
+  version.h
+  writer.h
+  PATH_SUFFIXES json jsoncpp/json)
 MARK_AS_ADVANCED(JSONCPP_INCLUDE_DIR)
  
 FIND_LIBRARY(JSONCPP_LIBRARY NAMES

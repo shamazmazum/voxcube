@@ -3,8 +3,8 @@ cmake_policy(SET CMP0048 NEW)
 
 project (voxcube VERSION 0.1)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/Modules")
-set (CMAKE_C_FLAGS_RELEASE "-O3 -march=native")
 
+set (OpenGL_GL_PREFERENCE GLVND)
 find_package (PkgConfig REQUIRED)
 find_package (OpenGL REQUIRED)
 find_package (SDL2 REQUIRED)
