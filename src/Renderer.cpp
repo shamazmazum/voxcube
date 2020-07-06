@@ -3,6 +3,8 @@
 #include "Resources.h"
 #include "Renderer.h"
 
+#define N 512
+
 Renderer::Renderer (glm::bvec3 invertAxes) {
     Shader vert(Resources::shader ("world.vert"), GL_VERTEX_SHADER);
     Shader frag(Resources::shader ("world.frag"), GL_FRAGMENT_SHADER);
@@ -13,6 +15,7 @@ Renderer::Renderer (glm::bvec3 invertAxes) {
     this->sampler   = this->program->uniformLocation ("sampler");
     this->thrID     = this->program->uniformLocation ("threshold");
     this->invertID  = this->program->uniformLocation ("invert_axes");
+    this->nplanes   = this->program->uniformLocation ("nplanes");
 
     this->invertAxes = invertAxes;
 }
@@ -20,12 +23,8 @@ Renderer::Renderer (glm::bvec3 invertAxes) {
 void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
     glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-    // Sort planes
-    glm::vec3 pos = person.position();
-    model->sortPlanes (pos.z);
-
     this->program->use();
-    // Set our "sampler" sampler to use Texture Unit 0
+    // Set our sampler to use Texture Unit 0
     glUniform1i (this->sampler, 0);
     // Projection matrix
     glm::mat4 project = person.projection();
@@ -40,6 +39,8 @@ void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
                   this->invertAxes.x,
                   this->invertAxes.y,
                   this->invertAxes.z);
+    // Number of planes
+    glUniform1ui (this->nplanes, N);
 
     // Bind texture
     glActiveTexture (GL_TEXTURE0);
@@ -54,18 +55,7 @@ void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
                           0,         // stride
                           (void*)0); // array buffer offset
 
-    glEnableVertexAttribArray(1);
-    model->bindZCoords();
-    glVertexAttribPointer(1,         // layout
-                          1,         // size
-                          GL_FLOAT,  // type
-                          GL_FALSE,  // normalized?
-                          0,         // stride
-                          (void*)0); // array buffer offset
-
     glVertexAttribDivisor(0, 0);
-    glVertexAttribDivisor(1, 1);
-    glDrawArraysInstanced (GL_TRIANGLE_STRIP, 0, 4, model->numQuads());
+    glDrawArraysInstanced (GL_TRIANGLE_STRIP, 0, 4, N);
     glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
 }

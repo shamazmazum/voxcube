@@ -24,6 +24,7 @@ private:
     GLuint thrID;
     GLuint sampler;
     GLuint invertID;
+    GLuint nplanes;
     glm::bvec3 invertAxes;
     float threshold{0.0f};
 };
