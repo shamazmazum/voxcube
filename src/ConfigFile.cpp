@@ -15,8 +15,8 @@ Configuration::Configuration (std::string filename) {
         throw std::runtime_error ("Cannot open a configuration: " + filename);
     }
 
-    input >> root;
     try {
+        input >> root;
         this->datafile = root["datafile"].asString();
         this->samplesize = root.get("samplesize", 1).asUInt();
         this->dimensions = glm::uvec3 (root["dimensions"]["w"].asUInt(),
@@ -27,7 +27,10 @@ Configuration::Configuration (std::string filename) {
                                        root["invert"]["z"].asBool());
     } catch (const Json::LogicError &e) {
         std::cerr << "Cannot parse configuration: " << e.what() << std::endl;
-        throw std::runtime_error ("Configuration error");
+        throw std::runtime_error ("Invalid configuration data");
+    } catch (const Json::RuntimeError &e) {
+        std::cerr << "Cannot parse configuration: " << e.what() << std::endl;
+        throw std::runtime_error ("Configuration: malformed JSON");
     }
 
     if (this->dimensions.x == 0 ||
