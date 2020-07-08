@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "Person.h"
 #include "Model.h"
+#include "ColorMap.h"
 #include "Renderer.h"
 
 class Application {
@@ -17,6 +18,7 @@ public:
 private:
     std::unique_ptr<Window>   window;
     std::unique_ptr<Model>    model;
+    std::unique_ptr<ColorMap> colormap;
     std::unique_ptr<Renderer> renderer;
     Person person;
 };

@@ -13,6 +13,8 @@ Renderer::Renderer (glm::bvec3 invertAxes) {
     this->proj      = this->program->uniformLocation ("proj");
     this->world2cam = this->program->uniformLocation ("world2cam");
     this->sampler   = this->program->uniformLocation ("sampler");
+    this->samplerCM = this->program->uniformLocation ("colormap");
+    this->colors    = this->program->uniformLocation ("colors");
     this->thrID     = this->program->uniformLocation ("threshold");
     this->invertID  = this->program->uniformLocation ("invert_axes");
     this->nplanes   = this->program->uniformLocation ("nplanes");
@@ -20,12 +22,18 @@ Renderer::Renderer (glm::bvec3 invertAxes) {
     this->invertAxes = invertAxes;
 }
 
-void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
+void Renderer::render (Person                    &person,
+                       std::unique_ptr<Model>    &model,
+                       std::unique_ptr<ColorMap> &colormap) {
     glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
     this->program->use();
     // Set our sampler to use Texture Unit 0
     glUniform1i (this->sampler, 0);
+    // Set our colormap sampler to use Texture Unit 1
+    glUniform1i (this->samplerCM, 1);
+    // Number of colors
+    glUniform1i (this->colors, colormap->colors());
     // Projection matrix
     glm::mat4 project = person.projection();
     glUniformMatrix4fv (this->proj, 1, GL_FALSE, &project[0][0]);
@@ -45,6 +53,10 @@ void Renderer::render (Person &person, std::unique_ptr<Model> &model) {
     // Bind texture
     glActiveTexture (GL_TEXTURE0);
     model->bindTexture();
+
+    // Bind colormap
+    glActiveTexture (GL_TEXTURE0 + 1);
+    colormap->bindColorMap();
 
     glEnableVertexAttribArray(0);
     model->bindVertexBuffer();

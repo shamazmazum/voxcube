@@ -21,6 +21,7 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     this->model = std::make_unique<Model> (cfg.dataFile(),
                                            cfg.dataSize(),
                                            cfg.sampleSize());
+    this->colormap = std::make_unique<ColorMap> (cfg.colorMap());
     this->renderer = std::make_unique<Renderer> (cfg.axesInversion());
 
     SDL_EventState (SDL_MOUSEMOTION, SDL_DISABLE);
@@ -32,7 +33,7 @@ Application::~Application() {
 }
 
 void Application::draw() {
-    this->renderer->render (this->person, this->model);
+    this->renderer->render (this->person, this->model, this->colormap);
     this->window->redraw();
 }
 

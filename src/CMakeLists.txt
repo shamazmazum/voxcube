@@ -21,6 +21,7 @@ add_executable (voxcube
   Model.cpp
   Person.cpp
   Renderer.cpp
+  ColorMap.cpp
   Application.cpp
   main.cpp
 )

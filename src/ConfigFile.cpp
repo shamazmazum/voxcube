@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <json/json.h>
+#include <algorithm>
 #include "ConfigFile.h"
 
 using namespace std::filesystem;
@@ -25,6 +26,15 @@ Configuration::Configuration (std::string filename) {
         this->invertAxes = glm::bvec3 (root["invert"]["x"].asBool(),
                                        root["invert"]["y"].asBool(),
                                        root["invert"]["z"].asBool());
+        for (const auto& iter : root["colormap"]) {
+            this->colormap.push_back (glm::vec4 (iter[0].asFloat(),
+                                                 iter[1].asFloat(),
+                                                 iter[2].asFloat(),
+                                                 iter[3].asFloat()));
+        }
+
+        std::sort (colormap.begin(), colormap.end(),
+                   [](glm::vec4 x, glm::vec4 y) {return x.a < y.a;});
     } catch (const Json::LogicError &e) {
         std::cerr << "Cannot parse configuration: " << e.what() << std::endl;
         throw std::runtime_error ("Invalid configuration data");
