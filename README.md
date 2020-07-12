@@ -17,6 +17,7 @@ run the program. See `examples` for more info.
 * CMake for building.
 * OpenGL
 * [GLM](https://glm.g-truc.net/0.9.9/index.html)
+* json-cpp
 
 ## Building
 
