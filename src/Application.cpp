@@ -20,7 +20,8 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
     Configuration cfg(cfgfile);
     this->model = std::make_unique<Model> (cfg.dataFile(),
                                            cfg.dataSize(),
-                                           cfg.sampleSize());
+                                           cfg.sampleSize(),
+                                           cfg.modelScale());
     this->colormap = std::make_unique<ColorMap> (cfg.colorMap());
     this->renderer = std::make_unique<Renderer> (cfg.axesInversion());
 

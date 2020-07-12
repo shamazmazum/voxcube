@@ -18,6 +18,7 @@ Renderer::Renderer (glm::bvec3 invertAxes) {
     this->thrID     = this->program->uniformLocation ("threshold");
     this->invertID  = this->program->uniformLocation ("invert_axes");
     this->nplanes   = this->program->uniformLocation ("nplanes");
+    this->scale     = this->program->uniformLocation ("scale");
 
     this->invertAxes = invertAxes;
 }
@@ -30,25 +31,35 @@ void Renderer::render (Person                    &person,
     this->program->use();
     // Set our sampler to use Texture Unit 0
     glUniform1i (this->sampler, 0);
+
     // Set our colormap sampler to use Texture Unit 1
     glUniform1i (this->samplerCM, 1);
+
     // Number of colors
     glUniform1i (this->colors, colormap->colors());
+
     // Projection matrix
     glm::mat4 project = person.projection();
     glUniformMatrix4fv (this->proj, 1, GL_FALSE, &project[0][0]);
+
     // World 2 Camera matrix
     glm::mat4 world2cam = person.world2Camera();
     glUniformMatrix4fv (this->world2cam, 1, GL_FALSE, &world2cam[0][0]);
+
     // Density threshold
     glUniform1f (this->thrID, this->threshold);
+
     // Axes direction
     glUniform3ui (this->invertID,
                   this->invertAxes.x,
                   this->invertAxes.y,
                   this->invertAxes.z);
+
     // Number of planes
     glUniform1ui (this->nplanes, N);
+
+    // Set scale matrix
+    model->setScaleUniform (this->scale);
 
     // Bind texture
     glActiveTexture (GL_TEXTURE0);

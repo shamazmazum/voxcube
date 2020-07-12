@@ -1,5 +1,6 @@
 #include <fstream>
 #include <vector>
+#include <glm/gtx/transform.hpp>
 #include "Model.h"
 
 static const GLfloat quad_data[] = {
@@ -10,8 +11,9 @@ static const GLfloat quad_data[] = {
 };
 
 Model::Model (std::string density_map,
-              glm::uvec3 dimensions,
-              int bps) {
+              glm::uvec3  dimensions,
+              int         bps,
+              glm::vec3   scale) {
     std::ifstream input(density_map);
     if (input.fail()) {
         throw std::runtime_error ("Cannot open a model: " + density_map);
@@ -56,4 +58,6 @@ Model::Model (std::string density_map,
                   0, GL_RED, GL_FLOAT, texdata.data());
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    this->scale = glm::scale (glm::mat4 (1.0f), scale);
 }

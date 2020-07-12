@@ -30,6 +30,7 @@ private:
     GLuint colors;
     GLuint invertID;
     GLuint nplanes;
+    GLuint scale;
     glm::bvec3 invertAxes;
     float threshold{0.0f};
 };
