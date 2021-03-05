@@ -24,6 +24,7 @@ Application::Application (std::string cfgfile, int w, int h, bool fullscreen) {
                                            cfg.modelScale());
     this->colormap = std::make_unique<ColorMap> (cfg.colorMap());
     this->renderer = std::make_unique<Renderer> (cfg.axesInversion());
+    this->textRenderer = std::make_unique<TextRenderer> (winsize, "DejaVuSans.ttf");
 
     SDL_EventState (SDL_MOUSEMOTION, SDL_DISABLE);
     SDL_SetRelativeMouseMode (SDL_TRUE);
@@ -34,8 +35,20 @@ Application::~Application() {
 }
 
 void Application::draw() {
+    Uint32 ticks;
+
     this->renderer->render (this->person, this->model, this->colormap);
+    this->textRenderer->drawText ("Hello! " + std::to_string(this->fps), 0.05, 0.05);
     this->window->redraw();
+
+    this->counter++;
+    ticks = SDL_GetTicks() - this->ticks;
+
+    if (ticks > 1000) {
+        this->fps = this->counter;
+        this->counter = 0;
+        this->ticks = SDL_GetTicks();
+    }
 }
 
 bool Application::handleEvents() {

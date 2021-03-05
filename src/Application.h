@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "ColorMap.h"
 #include "Renderer.h"
+#include "TextRenderer.h"
 
 class Application {
 public:
@@ -16,9 +17,14 @@ public:
     bool handleEvents();
 
 private:
-    std::unique_ptr<Window>   window;
-    std::unique_ptr<Model>    model;
-    std::unique_ptr<ColorMap> colormap;
-    std::unique_ptr<Renderer> renderer;
+    std::unique_ptr<Window>       window;
+    std::unique_ptr<Model>        model;
+    std::unique_ptr<ColorMap>     colormap;
+    std::unique_ptr<Renderer>     renderer;
+    std::unique_ptr<TextRenderer> textRenderer;
     Person person;
+
+    Uint32 ticks{0};
+    Uint32 counter{0};
+    Uint32 fps{0};
 };

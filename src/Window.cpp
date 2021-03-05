@@ -13,7 +13,6 @@ Window::Window (int w, int h, bool fullscreen) {
     SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute (SDL_GL_MULTISAMPLEBUFFERS, 1);
     SDL_GL_SetAttribute (SDL_GL_MULTISAMPLESAMPLES, 4);
-    SDL_GL_SetSwapInterval (1);
 
     Uint32 flags = SDL_WINDOW_OPENGL;
     flags |= (fullscreen)? SDL_WINDOW_FULLSCREEN_DESKTOP: 0;
@@ -33,6 +32,7 @@ Window::Window (int w, int h, bool fullscreen) {
     }
 
     SDL_GetWindowSize (this->window, &this->w, &this->h);
+    SDL_GL_SetSwapInterval (1);
 }
 
 Window::~Window () {

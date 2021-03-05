@@ -21,6 +21,7 @@ add_executable (voxcube
   Model.cpp
   Person.cpp
   Renderer.cpp
+  TextRenderer.cpp
   ColorMap.cpp
   Application.cpp
   main.cpp
@@ -29,6 +30,7 @@ add_executable (voxcube
 target_link_libraries (voxcube
   OpenGL::GL
   ${SDL2_LIBRARY}
+  ${SDL2_TTF_LIBRARY}
   ${JSONCPP_LIBRARY}
   )
 

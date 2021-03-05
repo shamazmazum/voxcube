@@ -11,4 +11,9 @@ public:
         path p = path(RESOURCE_DIR) / path ("shaders") / path (name);
         return p.string();
     }
+
+    static std::string font (std::string name) {
+        path p = path(RESOURCE_DIR) / path ("fonts") / path (name);
+        return p.string();
+    }
 };
