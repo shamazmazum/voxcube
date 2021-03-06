@@ -3,7 +3,7 @@ freebsd_instance:
 
 task:
   install_script:
-    - pkg install -y cmake glm mesa-libs jsoncpp sdl2
+    - pkg install -y cmake glm mesa-libs jsoncpp sdl2 sdl2_ttf
   script:
     - mkdir build
     - cd build
