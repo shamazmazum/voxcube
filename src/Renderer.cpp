@@ -15,6 +15,7 @@ Renderer::Renderer (glm::bvec3 invertAxes) {
     this->sampler   = this->program->uniformLocation ("sampler");
     this->samplerCM = this->program->uniformLocation ("colormap");
     this->colors    = this->program->uniformLocation ("colors");
+    this->mulID     = this->program->uniformLocation ("multiplier");
     this->thrID     = this->program->uniformLocation ("threshold");
     this->invertID  = this->program->uniformLocation ("invert_axes");
     this->nplanes   = this->program->uniformLocation ("nplanes");
@@ -48,6 +49,9 @@ void Renderer::render (Person                    &person,
 
     // Density threshold
     glUniform1f (this->thrID, this->threshold);
+
+    // Density multiplier
+    glUniform1f (this->mulID, this->multiplier);
 
     // Axes direction
     glUniform3ui (this->invertID,

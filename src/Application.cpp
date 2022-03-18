@@ -57,11 +57,21 @@ bool Application::handleEvents() {
     while (SDL_PollEvent (&event)) {
         switch (event.type) {
         case SDL_KEYDOWN:
-            if (event.key.keysym.scancode == SDL_SCANCODE_O) {
+            switch (event.key.keysym.scancode) {
+            case SDL_SCANCODE_O:
                 this->renderer->decThreshold (0.05f);
-            }
-            else if (event.key.keysym.scancode == SDL_SCANCODE_P) {
+                break;
+            case SDL_SCANCODE_P:
                 this->renderer->incThreshold (0.05f);
+                break;
+            case SDL_SCANCODE_K:
+                this->renderer->scaleMultiplier (1/1.2f);
+                break;
+            case SDL_SCANCODE_L:
+                this->renderer->scaleMultiplier (1.2f);
+                break;
+            default:
+                break;
             }
             break;
         case SDL_QUIT:
