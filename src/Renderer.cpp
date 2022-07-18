@@ -3,7 +3,7 @@
 #include "Resources.h"
 #include "Renderer.h"
 
-#define N 512
+#define N 256
 
 Renderer::Renderer (glm::bvec3 invertAxes) {
     Shader vert(Resources::shader ("world.vert"), GL_VERTEX_SHADER);
