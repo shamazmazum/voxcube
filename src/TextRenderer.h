@@ -5,7 +5,7 @@
 
 class TextRenderer {
 public:
-    TextRenderer (std::pair<int, int> window_size, std::string font);
+    TextRenderer (std::string font);
     ~TextRenderer () {
         TTF_CloseFont (this->font);
         TTF_Quit();
@@ -18,7 +18,6 @@ public:
 
 private:
     TTF_Font *font;
-    std::pair<int, int> window_size;
     std::unique_ptr<Program> program;
     GLuint sampler;
     GLuint texture;

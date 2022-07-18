@@ -3,15 +3,20 @@
 #include "Resources.h"
 
 static const GLfloat uv_data[] = {
-    0.0f, 0.0f,
     0.0f, 1.0f,
-    1.0f, 0.0f,
     1.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f,
 };
 
-TextRenderer::TextRenderer (std::pair<int, int> window_size, std::string font) {
-    this->window_size = window_size;
+static const GLfloat vert_data[] = {
+    -1.0f, -1.0f,
+     1.0f, -1.0f,
+    -1.0f,  1.0f,
+     1.0f,  1.0f,
+};
 
+TextRenderer::TextRenderer (std::string font) {
     if (TTF_Init() != 0) {
         throw std::runtime_error (std::string ("Cannot initialize SDL_ttf: ")
                                   + TTF_GetError());
@@ -37,6 +42,10 @@ TextRenderer::TextRenderer (std::pair<int, int> window_size, std::string font) {
     glBindBuffer (GL_ARRAY_BUFFER, this->uvBuffer);
     glBufferData (GL_ARRAY_BUFFER, sizeof (uv_data),
                   &uv_data[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof (vert_data),
+                 &vert_data[0], GL_STATIC_DRAW);
 }
 
 void TextRenderer::drawText (std::string text, float x, float y) {
@@ -51,17 +60,6 @@ void TextRenderer::drawText (std::string text, float x, float y) {
      */
     SDL_Surface *surface = SDL_ConvertSurface (tmp, format, 0);
 
-    GLfloat x0 = x - 1.0f;
-    GLfloat y0 = 1.0f - y;
-    GLfloat x1 = x0 + 2.0f * surface->w / this->window_size.first;
-    GLfloat y1 = y0 - 2.0f * surface->h / this->window_size.second;
-    GLfloat vertex_data[] = {
-        x0, y0,
-        x0, y1,
-        x1, y0,
-        x1, y1,
-    };
-
     // Free temporary data
     SDL_FreeFormat (format);
     SDL_FreeSurface (tmp);
@@ -69,10 +67,8 @@ void TextRenderer::drawText (std::string text, float x, float y) {
     // Use text shader
     this->program->use();
 
-    // Upload vertices
-    glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof (vertex_data),
-                 &vertex_data[0], GL_STATIC_DRAW);
+    // Setup text viewport
+    glViewport (surface->w * x, surface->h * y, surface->w, surface->h);
 
     // Upload texture
     glBindTexture (GL_TEXTURE_2D, this->texture);

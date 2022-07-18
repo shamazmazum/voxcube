@@ -1,4 +1,3 @@
-#include <stdexcept>
 #include <GL/gl.h>
 #include "Resources.h"
 #include "Renderer.h"
