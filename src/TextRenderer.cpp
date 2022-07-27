@@ -50,7 +50,7 @@ TextRenderer::TextRenderer (std::string font) {
 
 void TextRenderer::drawText (std::string text, float x, float y) {
     SDL_Color fgcolor = {255, 255, 255, 255};
-    SDL_Surface *surf = TTF_RenderText_Solid (this->font, text.c_str(), fgcolor);
+    SDL_Surface *surface = TTF_RenderText_Solid (this->font, text.c_str(), fgcolor);
 
     // Use text shader
     this->program->use();
@@ -60,15 +60,15 @@ void TextRenderer::drawText (std::string text, float x, float y) {
 
     // Upload texture
     glBindTexture (GL_TEXTURE_2D, this->texture);
+    glPixelStorei (GL_UNPACK_ROW_LENGTH, surface->pitch);
     glTexImage2D (GL_TEXTURE_2D, 0, GL_RED,
-                  surf->w,
-                  surf->h,
-                  0, GL_RED, GL_UNSIGNED_BYTE, surf->pixels);
+                  surface->w, surface->h,
+                  0, GL_RED, GL_UNSIGNED_BYTE, surface->pixels);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     // Free Surface
-    SDL_FreeSurface (surf);
+    SDL_FreeSurface (surface);
 
     // Bind sampler
     glActiveTexture (GL_TEXTURE0);
