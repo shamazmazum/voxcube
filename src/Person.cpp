@@ -1,4 +1,4 @@
-#include <glm/gtx/transform.hpp>
+#include <glm/ext.hpp>
 #include "Person.h"
 
 glm::mat4 rotate (float phi, float psi) {
